@@ -1,22 +1,20 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
+// import localFont from "next/font/local";
+import { Poppins } from "next/font/google";
 import "./globals.css";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-poppins",
 });
 
 export const metadata: Metadata = {
   title: "MakeMyEvent",
-  description:
-    " Create your events and share them with others.FInd and book events.",
+  description: " Online Platform to Create Book and share events with others.",
+  icons: {
+    icon: "/assets/icons/logo.png",
+  },
 };
 
 export default function RootLayout({
@@ -26,11 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
+      <body className={poppins.variable}>{children}</body>
     </html>
   );
 }
