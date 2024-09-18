@@ -8,7 +8,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   // You can find this in the Clerk Dashboard -> Webhooks -> choose the webhook
-  const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
+  const WEBHOOK_SECRET = process.env.NEXT_CLERK_WEBHOOK_SECRET;
 
   if (!WEBHOOK_SECRET) {
     throw new Error(
@@ -40,6 +40,8 @@ export async function POST(req: Request) {
 
   // Verify the payload with the headers
   try {
+    console.log("in web hook clerk");
+
     evt = wh.verify(body, {
       "svix-id": svix_id,
       "svix-timestamp": svix_timestamp,
@@ -58,6 +60,8 @@ export async function POST(req: Request) {
   const eventType = evt.type;
 
   if (eventType === "user.created") {
+    console.log("in web hook clerk user created");
+
     const { id, email_addresses, image_url, first_name, last_name, username } =
       evt.data;
 
