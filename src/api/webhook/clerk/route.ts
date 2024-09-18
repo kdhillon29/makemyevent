@@ -1,7 +1,7 @@
 import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { WebhookEvent } from "@clerk/nextjs/server";
-import { createUser } from "@/actions/user.actions";
+import { createUser, deleteUser, updateUser } from "@/actions/user.actions";
 // import { clerkClient } from "@clerk/nextjs";
 import { clerkClient } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
@@ -87,28 +87,28 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: "OK", user: newUser });
   }
   // event type update
-  //   if (eventType === "user.updated") {
-  //     const { id, image_url, first_name, last_name, username } = evt.data;
+  if (eventType === "user.updated") {
+    const { id, image_url, first_name, last_name, username } = evt.data;
 
-  //     const user = {
-  //       firstName: first_name,
-  //       lastName: last_name,
-  //       username: username!,
-  //       photo: image_url,
-  //     };
+    const user = {
+      firstName: first_name!,
+      lastName: last_name!,
+      username: username!,
+      photo: image_url,
+    };
 
-  //     const updatedUser = await updateUser(id, user);
+    const updatedUser = await updateUser(id, user);
 
-  //     return NextResponse.json({ message: "OK", user: updatedUser });
-  //   }
+    return NextResponse.json({ message: "OK", user: updatedUser });
+  }
   // delete event
-  //   if (eventType === "user.deleted") {
-  //     const { id } = evt.data;
+  if (eventType === "user.deleted") {
+    const { id } = evt.data;
 
-  //     const deletedUser = await deleteUser(id!);
+    const deletedUser = await deleteUser(id!);
 
-  //     return NextResponse.json({ message: "OK", user: deletedUser });
-  //   }
+    return NextResponse.json({ message: "OK", user: deletedUser });
+  }
 
   return new Response("", { status: 200 });
 }
